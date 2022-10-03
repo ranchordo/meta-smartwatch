@@ -936,7 +936,7 @@ CONFIG_BQL=y
 # CONFIG_HAMRADIO is not set
 # CONFIG_CAN is not set
 # CONFIG_IRDA is not set
-# CONFIG_BT is not set
+CONFIG_BT=y
 # CONFIG_AF_RXRPC is not set
 CONFIG_FIB_RULES=y
 CONFIG_WIRELESS=y
@@ -1174,7 +1174,7 @@ CONFIG_ALS_WHILE_CHARGING=y
 # Texas Instruments shared transport line discipline
 #
 CONFIG_TI_ST=y
-CONFIG_ST_HCI=y
+# CONFIG_ST_HCI is not set
 # CONFIG_SENSORS_LIS3_SPI is not set
 # CONFIG_SENSORS_LIS3_I2C is not set
 
@@ -1318,6 +1318,7 @@ CONFIG_WLCORE_SDIO=y
 # CONFIG_WILINK_PLATFORM_DATA is not set
 # CONFIG_ZD1211RW is not set
 # CONFIG_MWIFIEX is not set
+CONFIG_BT_WILINK=y
 
 #
 # Enable WiMAX (Networking options) to see the WiMAX drivers
