@@ -15,6 +15,7 @@ SRC_URI = " git://android.googlesource.com/kernel/omap;branch=android-omap-minno
     file://0004-Fix-compilation-warnings.patch \
     file://0005-include-update-log2-header-from-the-Linux-kernel.patch \
     file://0006-ARM-uaccess-remove-put_user-code-duplication.patch \
+    file://0007-Add-RCVMTU-SNDMTU-to-avoid-ENOPROTOOPT.patch \
     file://defconfig \
     file://img_info \
 "

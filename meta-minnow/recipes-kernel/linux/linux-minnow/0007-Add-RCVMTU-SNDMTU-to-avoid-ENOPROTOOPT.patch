@@ -1,0 +1,81 @@
+diff -ruN a/net/bluetooth/hci_sock.c b/net/bluetooth/hci_sock.c
+--- a/net/bluetooth/hci_sock.c	2022-10-18 21:10:20.224374000 -0600
++++ b/net/bluetooth/hci_sock.c	2022-10-18 23:11:00.526928938 -0600
+@@ -955,7 +955,10 @@
+ 			*((u32 *) f->event_mask + 1) = uf.event_mask[1];
+ 		}
+ 		break;
+-
++	case 12:
++	case 13:
++		// BT_SNDMTU, BT_RCVMTU can be ignored
++		break;
+ 	default:
+ 		err = -ENOPROTOOPT;
+ 		break;
+@@ -1021,7 +1024,10 @@
+ 		if (copy_to_user(optval, &uf, len))
+ 			err = -EFAULT;
+ 		break;
+-
++	case 12:
++	case 13:
++		// BT_SNDMTU, BT_RCVMTU can be ignored
++		break;
+ 	default:
+ 		err = -ENOPROTOOPT;
+ 		break;
+diff -ruN a/net/bluetooth/l2cap_sock.c b/net/bluetooth/l2cap_sock.c
+--- a/net/bluetooth/l2cap_sock.c	2022-10-02 13:05:23.000000000 -0600
++++ b/net/bluetooth/l2cap_sock.c	2022-10-18 23:11:55.339911852 -0600
+@@ -453,7 +453,10 @@
+ 		if (put_user(chan->chan_policy, (u32 __user *) optval))
+ 			err = -EFAULT;
+ 		break;
+-
++	case 12:
++	case 13:
++		// BT_SNDMTU, BT_RCVMTU can be ignored
++		break;
+ 	default:
+ 		err = -ENOPROTOOPT;
+ 		break;
+@@ -748,7 +751,10 @@
+ 			l2cap_move_start(chan);
+ 
+ 		break;
+-
++	case 12:
++	case 13:
++		// BT_SNDMTU, BT_RCVMTU can be ignored
++		break;
+ 	default:
+ 		err = -ENOPROTOOPT;
+ 		break;
+diff -ruN a/net/bluetooth/sco.c b/net/bluetooth/sco.c
+--- a/net/bluetooth/sco.c	2022-10-02 13:05:23.000000000 -0600
++++ b/net/bluetooth/sco.c	2022-10-18 23:12:28.447442170 -0600
+@@ -756,7 +756,10 @@
+ 		else
+ 			clear_bit(BT_SK_DEFER_SETUP, &bt_sk(sk)->flags);
+ 		break;
+-
++	case 12:
++	case 13:
++		// BT_SNDMTU, BT_RCVMTU can be ignored
++		break;
+ 	default:
+ 		err = -ENOPROTOOPT;
+ 		break;
+@@ -850,7 +853,10 @@
+ 			err = -EFAULT;
+ 
+ 		break;
+-
++	case 12:
++	case 13:
++		// BT_SNDMTU, BT_RCVMTU can be ignored
++		break;
+ 	default:
+ 		err = -ENOPROTOOPT;
+ 		break;

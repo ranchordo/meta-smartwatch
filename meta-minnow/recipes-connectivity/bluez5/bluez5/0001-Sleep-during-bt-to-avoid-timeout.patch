@@ -1,0 +1,13 @@
+diff -ruN a/tools/hciattach_ti.c b/tools/hciattach_ti.c
+--- a/tools/hciattach_ti.c	2021-02-22 13:27:00.000000000 -0700
++++ b/tools/hciattach_ti.c	2022-10-06 17:48:59.789842832 -0600
+@@ -332,6 +332,9 @@
+ 		fprintf(stderr, "brf_init: unknown firmware action type (%d)\n", brf_type);
+ 		break;
+ 	}
++	
++	// Sleep to avoid overwhelming the device
++	usleep(6000);
+ 
+ 	return ret;
+ }

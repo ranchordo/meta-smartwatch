@@ -1,0 +1,22 @@
+[Unit]
+Description=Initialize HCI UART on WL1831
+Requires=bluetooth.service
+After=bluetooth.service
+StartLimitIntervalSec=60
+StartLimitBurst=3
+
+[Service]
+Type=forking
+ExecStartPre=/usr/sbin/rfkill unblock bluetooth
+ExecStartPre=/bin/sh -c '/bin/echo 83 > /sys/class/gpio/export || echo Already exported'
+ExecStartPre=sleep 0.3
+ExecStartPre=/bin/sh -c '/bin/echo out > /sys/class/gpio/gpio83/direction'
+ExecStartPre=/bin/sh -c '/bin/echo 0 > /sys/class/gpio/gpio83/value'
+ExecStartPre=sleep 0.8
+ExecStartPre=/bin/sh -c '/bin/echo 1 > /sys/class/gpio/gpio83/value'
+ExecStartPre=sleep 0.8
+ExecStart=/bin/sh -c '/usr/bin/hciattach /dev/ttyO1 texas 3000000 flow sleep'
+Restart=on-failure
+
+[Install]
+WantedBy=basic.target
