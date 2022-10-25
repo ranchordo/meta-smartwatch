@@ -1,0 +1,50 @@
+diff -ruN a/backports/drivers/net/wireless/b43/Kconfig b/backports/drivers/net/wireless/b43/Kconfig
+--- a/backports/drivers/net/wireless/b43/Kconfig	2022-10-24 20:14:43.316311000 -0600
++++ b/backports/drivers/net/wireless/b43/Kconfig	2022-10-24 20:19:42.638030961 -0600
+@@ -1,10 +1,10 @@
++# Avoid a circular dependency: omit `depends on FW_LOADER` :7-8
+ config BACKPORT_B43
+ 	tristate "Broadcom 43xx wireless support (mac80211 stack)"
+ 	depends on !B43
+ 	depends on (BCMA_POSSIBLE || SSB_POSSIBLE) && BACKPORT_MAC80211 && HAS_DMA
+ 	select BCMA if BACKPORT_B43_BCMA
+ 	select SSB if BACKPORT_B43_SSB
+-	depends on FW_LOADER
+ 	---help---
+ 	  b43 is a driver for the Broadcom 43xx series wireless devices.
+ 
+@@ -28,13 +28,13 @@
+ 	  This driver can be built as a module (recommended) that will be called "b43".
+ 	  If unsure, say M.
+ 
++# Avoid a circular dependency: omit `depends on !B43_BCMA` :33-34
+ config BACKPORT_B43_BCMA
+ 	bool
+-	depends on !B43_BCMA
+ 
++# Avoid a circular dependency: omit `depends on !B43_SSB` :37-38
+ config BACKPORT_B43_SSB
+ 	bool
+-	depends on !B43_SSB
+ 
+ choice
+ 	prompt "Supported bus types"
+diff -ruN a/backports/drivers/net/wireless/brcm80211/Kconfig b/backports/drivers/net/wireless/brcm80211/Kconfig
+--- a/backports/drivers/net/wireless/brcm80211/Kconfig	2022-10-24 20:10:27.490331000 -0600
++++ b/backports/drivers/net/wireless/brcm80211/Kconfig	2022-10-24 20:20:10.005237165 -0600
+@@ -2,6 +2,7 @@
+ 	tristate
+ 	depends on !BRCMUTIL
+ 
++# Avoid a circular dependency: omit `depends on FW_LOADER` :14-15
+ config BACKPORT_BRCMSMAC
+ 	tristate "Broadcom IEEE802.11n PCIe SoftMAC WLAN driver"
+ 	depends on !BRCMSMAC
+@@ -11,7 +12,6 @@
+ 	select NEW_LEDS if BACKPORT_BCMA_DRIVER_GPIO
+ 	select LEDS_CLASS if BACKPORT_BCMA_DRIVER_GPIO
+ 	select BACKPORT_BRCMUTIL
+-	depends on FW_LOADER
+ 	depends on CORDIC
+ 	---help---
+ 	  This module adds support for PCIe wireless adapters based on Broadcom

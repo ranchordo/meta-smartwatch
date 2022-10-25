@@ -1,0 +1,42 @@
+diff -ruN a/backports/net/bluetooth/l2cap_sock.c b/backports/net/bluetooth/l2cap_sock.c
+--- a/backports/net/bluetooth/l2cap_sock.c	2022-10-24 20:10:26.231089000 -0600
++++ b/backports/net/bluetooth/l2cap_sock.c	2022-10-24 20:33:30.535795843 -0600
+@@ -1309,7 +1309,7 @@
+ 
+ 		if (parent) {
+ 			bt_accept_unlink(sk);
+-			parent->sk_data_ready(parent);
++			parent->sk_data_ready(parent, 0);
+ 		} else {
+ 			sk->sk_state_change(sk);
+ 		}
+@@ -1377,7 +1377,7 @@
+ 	sk->sk_state_change(sk);
+ 
+ 	if (parent)
+-		parent->sk_data_ready(parent);
++		parent->sk_data_ready(parent, 0);
+ 
+ 	release_sock(sk);
+ }
+@@ -1390,7 +1390,7 @@
+ 
+ 	parent = bt_sk(sk)->parent;
+ 	if (parent)
+-		parent->sk_data_ready(parent);
++		parent->sk_data_ready(parent, 0);
+ 
+ 	release_sock(sk);
+ }
+diff -ruN a/backports/net/bluetooth/sco.c b/backports/net/bluetooth/sco.c
+--- a/backports/net/bluetooth/sco.c	2022-10-24 20:10:26.231089000 -0600
++++ b/backports/net/bluetooth/sco.c	2022-10-24 20:37:27.905114394 -0600
+@@ -1061,7 +1061,7 @@
+ 			sk->sk_state = BT_CONNECTED;
+ 
+ 		/* Wake up parent */
+-		parent->sk_data_ready(parent);
++		parent->sk_data_ready(parent, 0);
+ 
+ 		bh_unlock_sock(parent);
+ 
