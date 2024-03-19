@@ -20,6 +20,8 @@ SRC_URI = " git://android.googlesource.com/kernel/msm;branch=android-msm-smelt-3
     file://0007-ARM-uaccess-remove-put_user-code-duplication.patch \
     file://0008-bluesleep-Use-kernel-s-HCI-events-instead-of-proc-bl.patch \
     file://0009-mdss_mdp_pipe-Don-t-allocate-first-RGB-pipe.patch \
+    file://0010-random-introduce-getrandom-2-system-call.patch \
+    file://0011-ARM-wire-up-getrandom-syscall.patch \
 "
 
 SRCREV = "49608c8bfc75360f7ac54f539ce326b90034bc9d"
@@ -31,7 +33,5 @@ B = "${S}"
 do_install:append() {
     rm -rf ${D}/usr/src/usr/
 }
-
-BOOT_PARTITION = "/dev/mmcblk0p24"
 
 inherit mkboot old-kernel-gcc-hdrs

@@ -1,0 +1,34 @@
+on init
+    mkdir /dev/graphics/
+    symlink /dev/fb0 /dev/graphics/fb0
+    chown system root /sys/class/timed_output/vibrator/enable
+
+    chown system root /dev/MultiSensors_CD_01
+    chmod 666 /dev/MultiSensors_CD_01
+
+    mkdir /data/
+
+    class_start core
+    load_system_props
+    setprop init.svc.bluetooth running
+
+service logd /usr/libexec/hal-droid/system/bin/logd
+    class core
+    socket logd stream 0666 root root
+    socket logdr seqpacket 0666 root root
+    socket logdw dgram 0222 root root
+
+service logcat /system/bin/logcat -f /dev/kmsg
+    class core
+
+service servicemanager /usr/libexec/hal-droid/system/bin/servicemanager
+    setenv LD_PRELOAD /usr/libexec/hal-droid/system/lib/libselinux_stubs.so
+    class core
+
+service hwservicemanager /system/bin/hwservicemanager
+    setenv LD_PRELOAD /usr/libexec/hal-droid/system/lib/libselinux_stubs.so
+    class core
+
+service bt /vendor/bin/hw/android.hardware.bluetooth@1.0-service
+    class core
+    oneshot
