@@ -1,0 +1,48 @@
+diff -ruN a/src/gatt-database.c b/src/gatt-database.c
+--- a/src/gatt-database.c	2022-07-24 15:02:15.000000000 -0600
++++ b/src/gatt-database.c	2022-10-17 20:46:41.702626044 -0600
+@@ -3791,7 +3791,7 @@
+ 					BT_IO_OPT_SEC_LEVEL, BT_IO_SEC_LOW,
+ 					BT_IO_OPT_INVALID);
+ 	if (!database->le_io) {
+-		error("Failed to start listening: %s", gerr->message);
++		error("Failed to start listening (LE_IO): %s", gerr->message);
+ 		g_error_free(gerr);
+ 		goto fail;
+ 	}
+@@ -3811,6 +3811,7 @@
+ 					BT_IO_OPT_MTU, btd_opts.gatt_mtu,
+ 					BT_IO_OPT_INVALID);
+ 	if (!database->eatt_io) {
++		error("Failed to start listening (EATT_IO): %s", gerr->message);
+ 		g_error_free(gerr);
+ 		goto fail;
+ 	}
+@@ -3824,7 +3825,7 @@
+ 					BT_IO_OPT_MTU, btd_opts.gatt_mtu,
+ 					BT_IO_OPT_INVALID);
+ 	if (database->bredr_io == NULL) {
+-		error("Failed to start listening: %s", gerr->message);
++		error("Failed to start listening (BR/EDR_IO): %s", gerr->message);
+ 		g_error_free(gerr);
+ 		goto fail;
+ 	}
+@@ -3842,14 +3843,16 @@
+ 	database->db_id = gatt_db_register(database->db, gatt_db_service_added,
+ 							gatt_db_service_removed,
+ 							database, NULL);
+-	if (!database->db_id)
++	if (!database->db_id) {
++		error("GATT Database registration failed (!DB_ID)");
+ 		goto fail;
++	}
+ 
+ 	return database;
+ 
+ fail:
+ 	gatt_database_free(database);
+-
++	error("btd_gatt_database_new: Failed");
+ 	return NULL;
+ }
+ 
